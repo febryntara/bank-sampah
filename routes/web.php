@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SampahController;
+use App\Http\Controllers\SetoranSampahController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "hai";
+    $data = [
+        'title' => 'Bank Sampah',
+    ];
+    return view('layouts.user', $data);
 })->name('home');
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
@@ -45,7 +49,7 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout')->name('auth.logout')->middleware('auth');
 });
 
-Route::prefix('setoran-sampah')->controller(SampahController::class)->group(function () {
+Route::prefix('setoran-sampah')->controller(SetoranSampahController::class)->group(function () {
     Route::get('/', 'index')->name('setoran_sampah.index');
     Route::get('create', 'create')->name('setoran_sampah.create');
     Route::get('detail/{setoran:id}', 'detail')->name('setoran_sampah.detail');

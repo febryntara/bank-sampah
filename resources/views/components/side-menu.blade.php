@@ -1,40 +1,43 @@
 <nav class="side-nav">
     <ul>
-        <li>
-            <a href="{{ route('dashboard') }}" class="side-menu {{ Request::is('/') ? 'side-menu--active' : null }}">
-                <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
-                <div class="side-menu__title">
-                    Dashboard
-                    <div class="side-menu__sub-icon transform rotate-180"> <i data-lucide="chevron-down"></i>
+        @if (auth()->user())
+            <li>
+                <a href="{{ route('dashboard') }}" class="side-menu {{ Request::is('/') ? 'side-menu--active' : null }}">
+                    <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
+                    <div class="side-menu__title">
+                        Dashboard
+                        <div class="side-menu__sub-icon transform rotate-180"> <i data-lucide="chevron-down"></i>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="javascript:;" class="side-menu {{ Request::is('dashboard/sampah*') ? 'side-menu--active' : null }}">
-                <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
-                <div class="side-menu__title">
-                    Sampah
-                    <div class="side-menu__sub-icon "> <i data-lucide="chevron-down"></i> </div>
-                </div>
-            </a>
-            <ul class="{{ Request::is('dashboard/sampah*') ? 'side-menu__sub-open' : null }}">
-                <li>
-                    <a href="{{ route('sampah.index') }}"
-                        class="side-menu {{ Request::is('dashboard/sampah') ? 'side-menu--active' : null }}">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
-                        <div class="side-menu__title"> Daftar Data Sampah </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('sampah.create') }}"
-                        class="side-menu {{ Request::is('dashboard/sampah/create') ? 'side-menu--active' : null }}">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
-                        <div class="side-menu__title"> Tambah Data Sampah </div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;"
+                    class="side-menu {{ Request::is('dashboard/sampah*') ? 'side-menu--active' : null }}">
+                    <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
+                    <div class="side-menu__title">
+                        Sampah
+                        <div class="side-menu__sub-icon "> <i data-lucide="chevron-down"></i> </div>
+                    </div>
+                </a>
+                <ul class="{{ Request::is('dashboard/sampah*') ? 'side-menu__sub-open' : null }}">
+                    <li>
+                        <a href="{{ route('sampah.index') }}"
+                            class="side-menu {{ Request::is('dashboard/sampah') ? 'side-menu--active' : null }}">
+                            <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                            <div class="side-menu__title"> Daftar Data Sampah </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('sampah.create') }}"
+                            class="side-menu {{ Request::is('dashboard/sampah/create') ? 'side-menu--active' : null }}">
+                            <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                            <div class="side-menu__title"> Tambah Data Sampah </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
         <li>
             <a href="javascript:;"
                 class="side-menu {{ Request::is('dashboard/setoran-sampah*') ? 'side-menu--active' : null }}">
@@ -44,21 +47,23 @@
                     <div class="side-menu__sub-icon "> <i data-lucide="chevron-down"></i> </div>
                 </div>
             </a>
-            <ul class="{{ Request::is('dashboard/setoran-sampah*') ? 'side-menu__sub-open' : null }}">
+            <ul class="{{ Request::is('setoran-sampah*') ? 'side-menu__sub-open' : null }}">
                 <li>
                     <a href="{{ route('setoran_sampah.index') }}"
-                        class="side-menu {{ Request::is('dashboard/setoran-sampah') ? 'side-menu--active' : null }}">
+                        class="side-menu {{ Request::is('setoran-sampah') ? 'side-menu--active' : null }}">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Daftar Setoran </div>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{ route('product.create') }}"
-                        class="side-menu {{ Request::is('product/create') ? 'side-menu--active' : null }}">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
-                        <div class="side-menu__title"> Tambah Setoran </div>
-                    </a>
-                </li> --}}
+                @if (!auth()->user())
+                    <li>
+                        <a href="{{ route('setoran_sampah.create') }}"
+                            class="side-menu {{ Request::is('setoran-sampah/create') ? 'side-menu--active' : null }}">
+                            <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                            <div class="side-menu__title"> Tambah Setoran </div>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </li>
         {{-- <li>
