@@ -60,6 +60,8 @@
                                                     <div class="text-base font-semibold">Rp.
                                                         {{ number_format($uang_didapat) }}</div>
                                                 </div>
+                                                <div class="text-slate-500">Silahkan pergi ke bank smapah dan tunjukan data
+                                                    ini</div>
                                             </div>
                                         @endif
                                     </div>
