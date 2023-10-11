@@ -29,7 +29,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END: Head -->
 
 <body class="py-5 md:py-0">
-    {{-- @include('sweetalert::alert') --}}
+    @include('sweetalert::alert')
     <!-- BEGIN: Mobile Menu -->
     <x-mobile-menu />
     <!-- END: Mobile Menu -->
