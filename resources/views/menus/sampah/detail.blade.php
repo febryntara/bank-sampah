@@ -23,7 +23,7 @@
                 </div>
                 <div class="mt-3">
                     <label for="" class="form-label flex justify-between">
-                        <p>Pilih Gambar Sampah</p>
+                        <p>Gambar Sampah</p>
                         @error('gambar')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror

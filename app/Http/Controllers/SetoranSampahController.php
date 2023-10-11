@@ -11,18 +11,18 @@ class SetoranSampahController extends Controller
 {
     public function index(Request $request)
     {
-        // return dd(session()->get('setoran_sampah'));
         $setoran = session()->get('setoran_sampah') ?? collect([]);
-        // session()->invalidate();
+        if (!auth()->user()) {
+            $setoran = SetoranSampah::whereIn('id', $setoran->map(fn ($data) => $data->id));
+        } else {
+            $setoran = SetoranSampah::latest();
+        }
         $data = [
             'title' => 'Daftar Setoran Sampah',
-            'setoran' => SetoranSampah::whereIn('id', $setoran->map(fn ($data) => $data->id))->search($request->get('keyword'))->paginate(5)->withQueryString(),
+            'setoran' => $setoran->search($request->get('keyword'))->paginate(5)->withQueryString(),
             'entries' => $setoran->count(),
-            'iteration' => !$request->has('page') ? 0 : ($request->get('page') != 1 ? ($request->get('page') - 1) * 5 + 1 : 1)
+            'iteration' => !$request->has('page') ? 1 : ($request->get('page') != 1 ? ($request->get('page') - 1) * 5 + 1 : 1)
         ];
-
-        // return dd($data['setoran'][0]->hasil);
-
         return view('menus.setoran_sampah.index', $data);
     }
 

@@ -31,7 +31,7 @@
                 <tbody>
                     @forelse ($sampah as $data)
                         <tr class="intro-x">
-                            <td class="text-left">{{ $loop->iteration }}</td>
+                            <td class="text-left">{{ $iteration++ }}</td>
                             <td class="text-left">{{ $data->nama }}</td>
                             <td class="text-center">{{ Str::words(strip_tags($data->deskripsi), 3, '...') }}</td>
                             <td class="text-center">{{ 'Rp. ' . number_format($data->harga_kg) }}</td>

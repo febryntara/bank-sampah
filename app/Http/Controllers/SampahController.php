@@ -13,8 +13,9 @@ class SampahController extends Controller
         $sampah = Sampah::latest();
         $data = [
             'title' => 'Daftar Data Sampah',
-            'sampah' => $sampah->paginate(10)->withQueryString(),
-            'entries' => $sampah->count()
+            'sampah' => $sampah->search($request->get('keyword'))->paginate(5)->withQueryString(),
+            'entries' => $sampah->count(),
+            'iteration' => !$request->has('page') ? 1 : ($request->get('page') != 1 ? ($request->get('page') - 1) * 5 + 1 : 1)
         ];
 
         return view('menus.sampah.index', $data);
@@ -86,10 +87,17 @@ class SampahController extends Controller
         $is_updated = $sampah->update($validator->validate());
         if ($is_updated) {
             if ($request->has('gambar')) {
-                $sampah->gambar()->update([
-                    'src' => $request->file('gambar')->store('sampah'),
-                    'alt' => "gambar data sampah " . $request->get('nama')
-                ]);
+                if ($sampah->gambar) {
+                    $sampah->gambar()->update([
+                        'src' => $request->file('gambar')->store('sampah'),
+                        'alt' => "gambar data sampah " . $request->get('nama')
+                    ]);
+                } else {
+                    $sampah->gambar()->create([
+                        'src' => $request->file('gambar')->store('sampah'),
+                        'alt' => "gambar data sampah " . $request->get('nama')
+                    ]);
+                }
             }
             return redirect()->route('sampah.detail', ['sampah' => $sampah])->with('success', 'Data sampah berhasil diubah!');
         }

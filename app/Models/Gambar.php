@@ -42,10 +42,10 @@ class Gambar extends Model
         });
 
         self::deleting(function ($model) {
-            Storage::delete($model->src);
         });
 
         self::deleted(function ($model) {
+            Storage::delete($model->src);
         });
     }
 }

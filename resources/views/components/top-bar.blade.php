@@ -19,37 +19,6 @@
              </ol>
          </nav>
          <!-- END: Breadcrumb -->
-
-         {{-- <!-- BEGIN: Notifications -->
-         <div class="intro-x dropdown mr-4 sm:mr-6">
-             <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button"
-                 aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell"
-                     class="notification__icon dark:text-slate-500"></i> </div>
-             <div class="notification-content pt-2 dropdown-menu">
-                 <div class="notification-content__box dropdown-content">
-                     <div class="notification-content__title">Notifications</div>
-                     <div class="cursor-pointer relative flex items-center ">
-                         <div class="w-12 h-12 flex-none image-fit mr-1">
-                             <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                 src="{{ Vite::asset('resources/template/images/profile-15.jpg') }}">
-                             <div
-                                 class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white">
-                             </div>
-                         </div>
-                         <div class="ml-2 overflow-hidden">
-                             <div class="flex items-center">
-                                 <a href="javascript:;" class="font-medium truncate mr-5">Christian Bale</a>
-                                 <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">06:05 AM</div>
-                             </div>
-                             <div class="w-full truncate text-slate-500 mt-0.5">It is a long established fact that a
-                                 reader will be templateracted by the readable content of a page when looking at its
-                                 layout. The point of using Lorem </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <!-- END: Notifications --> --}}
          <!-- BEGIN: Account Menu -->
          @if (auth()->user())
              <div class="intro-x dropdown w-8 h-8">
@@ -79,6 +48,10 @@
                          </li>
                      </ul>
                  </div>
+             </div>
+         @else
+             <div class="intro-x">
+                 <a href="{{ route('auth.login') }}" class="btn bg-white text-primary">Login Admin</a>
              </div>
          @endif
          <!-- END: Account Menu -->

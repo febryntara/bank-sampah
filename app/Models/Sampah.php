@@ -13,6 +13,12 @@ class Sampah extends Model
 
     // custom attribute
     // local scope
+    public function scopeSearch($query, $keyword)
+    {
+        $query->when($keyword ?? false, function ($query) use ($keyword) {
+            $query->where('nama', 'like', "%$keyword%");
+        });
+    }
     // relation
     public function gambar()
     {
@@ -39,7 +45,7 @@ class Sampah extends Model
         });
 
         self::deleted(function ($model) {
-            $model->gambar()->delete();
+            $model->gambar->delete();
         });
     }
 }
