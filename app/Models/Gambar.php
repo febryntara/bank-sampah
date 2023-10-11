@@ -14,6 +14,10 @@ class Gambar extends Model
     protected $fillable = ['src', 'alt'];
 
     // custom attribute
+    public function getPathAttribute()
+    {
+        return env('APP_URL') . 'storage/' . $this->src;
+    }
     // local scope
     // relation
     public function sampah()

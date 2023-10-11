@@ -10,9 +10,11 @@ class SampahController extends Controller
 {
     public function index(Request $request)
     {
+        $sampah = Sampah::latest();
         $data = [
             'title' => 'Daftar Data Sampah',
-            'sampah' => Sampah::latest()->get()
+            'sampah' => $sampah->paginate(10)->withQueryString(),
+            'entries' => $sampah->count()
         ];
 
         return view('menus.sampah.index', $data);
@@ -61,7 +63,7 @@ class SampahController extends Controller
         $is_created = Sampah::create($validator->validate());
         if ($is_created) {
             $is_created->gambar()->create([
-                'src' => $request->get('gambar')->store('sampah'),
+                'src' => $request->file('gambar')->store('sampah'),
                 'alt' => "gambar data sampah $is_created->nama"
             ]);
             return redirect()->route('sampah.index')->with('success', 'Data sampah baru berhasil dibuat!');
@@ -85,7 +87,7 @@ class SampahController extends Controller
         if ($is_updated) {
             if ($request->has('gambar')) {
                 $sampah->gambar()->update([
-                    'src' => $request->get('gambar')->store('sampah'),
+                    'src' => $request->file('gambar')->store('sampah'),
                     'alt' => "gambar data sampah " . $request->get('nama')
                 ]);
             }

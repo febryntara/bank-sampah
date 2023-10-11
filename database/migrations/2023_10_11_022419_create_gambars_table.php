@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tb_gambar', function (Blueprint $table) {
             $table->id();
             $table->morphs('imageable');
+            $table->string('src');
+            $table->string('alt');
             $table->timestamps();
         });
     }

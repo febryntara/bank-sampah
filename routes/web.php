@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SampahController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return "hai";
+})->name('home');
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        $data = [
+            'title' => 'Dashboard'
+        ];
+        return view('layouts.dashboard', $data);
+    })->name('dashboard');
+
     Route::prefix('sampah')->controller(SampahController::class)->group(function () {
         Route::get('/', 'index')->name('sampah.index');
         Route::get('create', 'create')->name('sampah.create');
@@ -35,4 +43,15 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::get('login', 'login')->name('auth.login')->middleware('guest');
     Route::post('login', 'attempt_login')->name('auth.attempt_login')->middleware('guest');
     Route::get('logout', 'logout')->name('auth.logout')->middleware('auth');
+});
+
+Route::prefix('setoran-sampah')->controller(SampahController::class)->group(function () {
+    Route::get('/', 'index')->name('setoran_sampah.index');
+    Route::get('create', 'create')->name('setoran_sampah.create');
+    Route::get('detail/{setoran:id}', 'detail')->name('setoran_sampah.detail');
+    Route::get('update/{setoran:id}', 'update')->name('setoran_sampah.update');
+
+    Route::post('store', 'store')->name('setoran_sampah.store');
+    Route::patch('detail/{setoran:id}', 'patch')->name('setoran_sampah.patch');
+    Route::delete('delete/{setoran:id}', 'delete')->name('setoran_sampah.delete');
 });
