@@ -24,6 +24,10 @@ class Sampah extends Model
     {
         return $this->morphOne(Gambar::class, 'imageable');
     }
+    public function setoran()
+    {
+        return $this->hasMany(SetoranSampah::class, 'sampah_id');
+    }
     // event
     public static function boot()
     {

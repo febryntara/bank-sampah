@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SampahController;
 use App\Http\Controllers\SetoranSampahController;
+use App\Models\Sampah;
+use App\Models\SetoranSampah;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +27,22 @@ Route::get('/', function () {
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
+        $setoran = SetoranSampah::get();
+        $sampah = Sampah::latest();
         $data = [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'total_kg' => $setoran->map(fn ($data) => $data->jumlah)->sum(),
+            'jenis_sampah' => $sampah->count(),
+            'total_setoran' => $setoran->count(),
+            'sampah' => $sampah->get()->map(fn ($data) => $data->nama),
+            'sampah_setoran' => $sampah->get()->map(function ($data) {
+                $total_setoran = $data->setoran->map(fn ($row) => $row->jumlah)->sum();
+                return $total_setoran;
+            })
         ];
-        return view('layouts.dashboard', $data);
+
+        // return dd($data);
+        return view('menus.dashboard.index', $data);
     })->name('dashboard');
 
     Route::prefix('sampah')->controller(SampahController::class)->group(function () {

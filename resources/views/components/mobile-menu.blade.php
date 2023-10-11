@@ -1,7 +1,8 @@
 <div class="mobile-menu md:hidden">
     <div class="mobile-menu-bar">
         <a href="" class="flex mr-auto">
-            <img alt="Logo Bank Sampah Png" class="w-14" src="{{ Vite::asset('resources/logo/Logo-01.png') }}">
+            <img alt="Logo Bank Sampah Png" class="w-8"
+                src="https://ebanksampah.unilak.ac.id/assets/images/logo256x256.png">
         </a>
         <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="menu"
                 class="w-8 h-8 text-white transform "></i> </a>
