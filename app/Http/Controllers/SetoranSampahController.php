@@ -67,4 +67,31 @@ class SetoranSampahController extends Controller
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan pada database!<br>setoran gagal dibuat!');
         }
     }
+
+    public function status_diterima(SetoranSampah $setoran)
+    {
+        if ($setoran->status != 'dibuat') {
+            return redirect()->back()->with('error', "aksi tidak diijinkan!");
+        }
+
+        if ($setoran->update([
+            'status' => 'diterima'
+        ])) {
+            return redirect()->route('setoran_sampah.index')->with('success', 'Setoran berhasil diupdate!');
+        };
+        return redirect()->route('setoran_sampah.index')->with('success', 'Setoran gagal diupdate!');
+    }
+    public function status_uang_diambil(SetoranSampah $setoran)
+    {
+        if ($setoran->status != 'diterima') {
+            return redirect()->back()->with('error', "aksi tidak diijinkan!");
+        }
+
+        if ($setoran->update([
+            'status' => 'uang_diambil'
+        ])) {
+            return redirect()->route('setoran_sampah.index')->with('success', 'Setoran berhasil diupdate!');
+        };
+        return redirect()->route('setoran_sampah.index')->with('success', 'Setoran gagal diupdate!');
+    }
 }

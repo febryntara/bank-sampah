@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('sampah_id');
             $table->integer('jumlah');
             $table->integer('hasil');
+            $table->enum('status', ['dibuat', 'diterima', 'uang_diambil'])->default('dibuat');
             $table->timestamps();
         });
     }

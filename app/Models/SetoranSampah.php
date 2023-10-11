@@ -9,7 +9,7 @@ class SetoranSampah extends Model
 {
     use HasFactory;
     protected $table = 'tb_setoran_sampah';
-    protected $fillable = ['nama', 'jumlah', 'hasil', 'sampah_id'];
+    protected $fillable = ['nama', 'jumlah', 'hasil', 'sampah_id', 'status'];
 
     // custom attribute
     public function getJenisSampahAttribute()
@@ -20,7 +20,7 @@ class SetoranSampah extends Model
     public function scopeSearch($query, $keyword)
     {
         $query->when($keyword ?? false, function ($query) use ($keyword) {
-            $query->whereHas('sampah', function ($query) use ($keyword) {
+            $query->where('nama', 'like', "%$keyword%")->orWhereHas('sampah', function ($query) use ($keyword) {
                 $query->where('nama', 'like', "%$keyword%");
             });
         });

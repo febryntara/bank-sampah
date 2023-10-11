@@ -19,11 +19,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $setoran = session()->get('setoran_sampah') ?? collect([]);
+    $setoran = SetoranSampah::whereIn('id', $setoran->map(fn ($data) => $data->id))->get();
+
+    $sampah = Sampah::latest();
+
     $data = [
-        'title' => 'Bank Sampah',
+        'title' => 'Dashboard',
+        'total_kg' => $setoran->map(fn ($data) => $data->jumlah)->sum(),
+        'jenis_sampah' => $sampah->count(),
+        'total_setoran' => $setoran->count(),
+        'uang_didapat' => $setoran->filter(fn ($data) => $data->status == 'diterima')->map(fn ($data) => $data->hasil)->sum(),
+        'sampah' => $sampah->get()->map(fn ($data) => $data->nama),
+        'sampah_setoran' => $sampah->get()->map(function ($data) use ($setoran) {
+            $total_setoran = 0;
+            foreach ($setoran as $s) {
+                if ($s->sampah_id == $data->id) {
+                    $total_setoran += $s->jumlah;
+                }
+            }
+            return $total_setoran;
+        })
     ];
-    return view('layouts.user', $data);
-})->name('home');
+
+    return view('menus.dashboard.index', $data);
+})->name('user.dashboard');
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
@@ -43,7 +63,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
         // return dd($data);
         return view('menus.dashboard.index', $data);
-    })->name('dashboard');
+    })->name('admin.dashboard');
 
     Route::prefix('sampah')->controller(SampahController::class)->group(function () {
         Route::get('/', 'index')->name('sampah.index');
@@ -66,10 +86,9 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 Route::prefix('setoran-sampah')->controller(SetoranSampahController::class)->group(function () {
     Route::get('/', 'index')->name('setoran_sampah.index');
     Route::get('create', 'create')->name('setoran_sampah.create');
-    Route::get('detail/{setoran:id}', 'detail')->name('setoran_sampah.detail');
-    Route::get('update/{setoran:id}', 'update')->name('setoran_sampah.update');
 
     Route::post('store', 'store')->name('setoran_sampah.store');
-    Route::patch('detail/{setoran:id}', 'patch')->name('setoran_sampah.patch');
+    Route::patch('update/{setoran:id}/diterima', 'status_diterima')->name('setoran_sampah.status_diterima');
+    Route::patch('update/{setoran:id}/uang_diambil', 'status_uang_diambil')->name('setoran_sampah.status_uang_diambil');
     Route::delete('delete/{setoran:id}', 'delete')->name('setoran_sampah.delete');
 });

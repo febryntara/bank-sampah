@@ -1,16 +1,17 @@
 <nav class="side-nav">
     <ul>
-        @if (auth()->user())
-            <li>
-                <a href="{{ route('dashboard') }}" class="side-menu {{ Request::is('/') ? 'side-menu--active' : null }}">
-                    <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
-                    <div class="side-menu__title">
-                        Dashboard
-                        <div class="side-menu__sub-icon transform rotate-180"> <i data-lucide="chevron-down"></i>
-                        </div>
+        <li>
+            <a href="{{ route(auth()->user() ? 'admin.dashboard' : 'user.dashboard') }}"
+                class="side-menu {{ Request::is('/') ? 'side-menu--active' : null }}">
+                <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
+                <div class="side-menu__title">
+                    Dashboard
+                    <div class="side-menu__sub-icon transform rotate-180"> <i data-lucide="chevron-down"></i>
                     </div>
-                </a>
-            </li>
+                </div>
+            </a>
+        </li>
+        @if (auth()->user())
             <li>
                 <a href="javascript:;"
                     class="side-menu {{ Request::is('dashboard/sampah*') ? 'side-menu--active' : null }}">

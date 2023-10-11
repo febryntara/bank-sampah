@@ -6,11 +6,19 @@
             <div class="grid grid-cols-12 gap-6">
                 <!-- BEGIN: General Report -->
                 <div class="col-span-12 mt-8">
-                    <div class="intro-y flex items-center h-10">
+                    <div class="intro-y flex h-10 flex-col">
                         <h2 class="text-lg font-medium truncate mr-5">
                             Laporan Umum
                         </h2>
                     </div>
+                    @if (!auth()->user())
+                        <p class="">Data akan bertahan selama seminggu sejak setoran berhasil disimpan,<br>
+                            pastikan
+                            anda sudah mengambil
+                            uang ke
+                            bank sampah sebelum
+                            waktu 7 hari berlalu</p>
+                    @endif
                     <div class="report-box-2 intro-y mt-5">
                         <div class="box grid grid-cols-12">
                             <div class="col-span-12 lg:col-span-3 px-8 py-12 flex flex-col justify-center">
@@ -45,6 +53,15 @@
                                                 <div class="text-base font-semibold">{{ $total_setoran }} Kali</div>
                                             </div>
                                         </div>
+                                        @if (!auth()->user())
+                                            <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                                                <div class="text-slate-500">Uang yang bisa diambil</div>
+                                                <div class="mt-1.5 flex items-center">
+                                                    <div class="text-base font-semibold">Rp.
+                                                        {{ number_format($uang_didapat) }}</div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +88,7 @@
                                     <div class="flex items-center">
                                         <div class="w-2 h-2 bg-primary rounded-full mr-3"></div>
                                         <span class="truncate">{{ $item }}</span> <span
-                                            class="font-medium ml-auto">{{ number_format(($sampah_setoran[$loop->index] / $total_kg) * 100, 1) }}%</span>
+                                            class="font-medium ml-auto">{{ ($sampah_setoran[$loop->index] != 0) & ($total_kg != 0) ? number_format(($sampah_setoran[$loop->index] / $total_kg) * 100, 1) : 0 }}%</span>
                                     </div>
                                 @endforeach
                             </div>
